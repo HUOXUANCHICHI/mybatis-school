@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace命名空间,包含+SQL映射文件名-->
+<mapper namespace="com.ablaze.mapper.UserInfoMapper">
+
+    <resultMap id="userInfoResultMap" type="userInfo">
+        <result column="user_name" property="userName"/>
+        <result column="real_name" property="realName"/>
+    </resultMap>
+
+    <select id="findUserInfoById" resultType="UserInfo">
+        select *
+        from user_info
+        where id = #{id};
+    </select>
+    <!--单条件模糊查询(按名称)
+        <select id="selectByCondition" resultMap="userInfoResultMap">
+            select *
+            from user_info
+            where user_name like #{userName}
+        </select>
+    -->
+    <!--多条件模糊查询-->
+    <select id="selectByCondition" resultMap="userInfoResultMap">
+        select * from user_info
+        <where>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="userName != null and userName != '' ">
+                and user_name like #{userName}
+            </if>
+            <if test="realName != null and realName != '' ">
+                and real_name like #{realName}
+            </if>
+        </where>
+    </select>
+    <!--条件动态查询-->
+    <select id="selectByConditionSingle" resultMap="userInfoResultMap">
+        select *
+        from user_info
+        <where>
+            <choose>
+                <when test="status != null">
+                    status = #{status}
+                </when>
+                <when test="userName != null and userName != ''">
+                    and user_name like #{userName}
+                </when>
+                <when test="userName != null and userName != '' ">
+                    real_name like #{realName}
+                </when>
+            </choose>
+        </where>
+    </select>
+
+</mapper>
