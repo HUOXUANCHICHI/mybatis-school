@@ -7,6 +7,9 @@ import com.ablaze.util.SqlSessionFactoryUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
+/**
+ * @author CHICHI
+ */
 public class UserInfoServiceImpl implements UserInfoService {
     /**
      * 1. 创建SqlSessionFactory 工厂对象

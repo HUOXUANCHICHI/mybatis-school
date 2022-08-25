@@ -10,11 +10,13 @@
         <result column="real_name" property="realName"/>
     </resultMap>
 
+<!--
     <select id="findUserInfoById" resultType="UserInfo">
         select *
         from user_info
         where id = #{id};
     </select>
+-->
     <!--单条件模糊查询(按名称)
         <select id="selectByCondition" resultMap="userInfoResultMap">
             select *
