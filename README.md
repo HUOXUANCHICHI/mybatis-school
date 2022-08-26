@@ -1,4 +1,4 @@
 # mybatis-school
 
 ----
-v2.0 day02
+v2.0 day01
