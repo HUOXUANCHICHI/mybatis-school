@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author CHICHI
@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
-public class UserInfo implements Serializable {
+public class UserInfo {
     /**
      * id 主键
      */
@@ -45,7 +45,7 @@ public class UserInfo implements Serializable {
     /**
      * 日期
      */
-    private String regDate;
+    private Date regDate;
     /**
      * 状态：0：禁用  1：启用
      */

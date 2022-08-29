@@ -25,26 +25,21 @@ public class MyBatis01Test {
         //2. 获取SqlSession对象
         SqlSession sqlSession = factory.openSession();
         //3.获取Mapper接口的代理对象
-        UserInfoMapper UserInfoMapper = sqlSession.getMapper(UserInfoMapper.class);
+        UserInfoMapper userInfoMapper = sqlSession.getMapper(UserInfoMapper.class);
 
         //4.执行方法
-        UserInfo userInfo = UserInfoMapper.findUserInfoById(id);
+        UserInfo userInfo = userInfoMapper.findUserInfoById(id);
         System.out.println(userInfo);
         //5.释放资源
         sqlSession.close();
 
     }
 
-    /**
-     * 单/多条件模糊查询
-     * @throws IOException
-     */
     @Test
-    public void testSelectByCondition() {
-
-/*      //单条件模糊查询
+    public void testFindUserInfoByName() {
+        //单条件模糊查询
         //接收参数
-        String userName = "1";
+        String userName = "i";
 
         //处理参数
         userName = "%" + userName + "%";
@@ -52,7 +47,26 @@ public class MyBatis01Test {
         //封装对象
         UserInfo userInfo = new UserInfo();
         userInfo.setUserName(userName);
-*/
+
+        //2. 获取SqlSession对象
+        SqlSession sqlSession = factory.openSession();
+        //3.获取Mapper接口的代理对象
+        UserInfoMapper userInfoMapper = sqlSession.getMapper(UserInfoMapper.class);
+        //4.执行方法
+        List<UserInfo> userInfos = userInfoMapper.selectByCondition(userInfo);
+//        System.out.println(userInfos);
+        userInfos.forEach(System.out::println);
+        //5.释放资源
+        sqlSession.close();
+    }
+
+    /**
+     * 多条件模糊查询
+     *
+     * @throws IOException
+     */
+    @Test
+    public void testSelectByCondition() {
 
         //接收参数
         int status = 1;
@@ -71,9 +85,9 @@ public class MyBatis01Test {
         //2. 获取SqlSession对象
         SqlSession sqlSession = factory.openSession();
         //3.获取Mapper接口的代理对象
-        UserInfoMapper UserInfoMapper = sqlSession.getMapper(UserInfoMapper.class);
+        UserInfoMapper userInfoMapper = sqlSession.getMapper(UserInfoMapper.class);
         //4.执行方法
-        List<UserInfo> userInfos = UserInfoMapper.selectByCondition(userInfo);
+        List<UserInfo> userInfos = userInfoMapper.selectByCondition(userInfo);
         System.out.println(userInfos);
         //5.释放资源
         sqlSession.close();
@@ -98,10 +112,99 @@ public class MyBatis01Test {
         //2. 获取SqlSession对象
         SqlSession sqlSession = factory.openSession();
         //3.获取Mapper接口的代理对象
-        UserInfoMapper UserInfoMapper = sqlSession.getMapper(UserInfoMapper.class);
+        UserInfoMapper userInfoMapper = sqlSession.getMapper(UserInfoMapper.class);
         //4.执行方法
-        List<UserInfo> userInfos = UserInfoMapper.selectByCondition(userInfo);
+        List<UserInfo> userInfos = userInfoMapper.selectByCondition(userInfo);
         System.out.println(userInfos);
+        //5.释放资源
+        sqlSession.close();
+    }
+
+    @Test
+    public void testAdd() {
+        int status = 1;
+        String userName = "chichi4";
+        String password = "4";
+        String realName = "赤赤4";
+        String sex = "0";
+        String address = "11";
+        String email = "11";
+//        Date regDate = "1970-01-09";
+//        Date regDate = new Date();
+//        System.out.println(regDate.toString());
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserName(userName);
+        userInfo.setPassword(password);
+        userInfo.setRealName(realName);
+        userInfo.setSex(sex);
+        userInfo.setAddress(address);
+        userInfo.setEmail(email);
+//        userInfo.setRegDate(regDate);
+        userInfo.setStatus(status);
+
+        //2. 获取SqlSession对象
+        SqlSession sqlSession = factory.openSession();
+        //3.获取Mapper接口的代理对象
+        UserInfoMapper userInfoMapper = sqlSession.getMapper(UserInfoMapper.class);
+        //4.执行方法
+        userInfoMapper.add(userInfo);
+        //提交事务
+        sqlSession.commit();
+        //5.释放资源
+        sqlSession.close();
+
+    }
+
+    @Test
+    public void testUpdate() {
+        //接收参数
+        int status = 1;
+        String userName = "chichi4";
+        String password = "4";
+        String realName = "赤赤4";
+        String sex = "0";
+        String address = "11";
+        String email = "11";
+//        Date regDate = "1970-01-09";
+        int id = 4;
+
+        //封装对象
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserName(userName);
+        userInfo.setPassword(password);
+        userInfo.setRealName(realName);
+        userInfo.setSex(sex);
+        userInfo.setAddress(address);
+        userInfo.setEmail(email);
+//        userInfo.setRegDate(regDate);
+        userInfo.setStatus(status);
+        userInfo.setId(id);
+
+        //2. 获取SqlSession对象
+        SqlSession sqlSession = factory.openSession();
+        //3.获取Mapper接口的代理对象
+        UserInfoMapper userInfoMapper = sqlSession.getMapper(UserInfoMapper.class);
+        //4.执行方法
+        int count = userInfoMapper.update(userInfo);
+        System.out.println(count);
+        //提交事务
+        sqlSession.commit();
+        //5.释放资源
+        sqlSession.close();
+    }
+
+    @Test
+    public void testDeleteById() {
+        //接收参数
+        int id = 5; //2. 获取SqlSession对象
+        SqlSession sqlSession = factory.openSession();
+        //3.获取Mapper接口的代理对象
+        UserInfoMapper userInfoMapper = sqlSession.getMapper(UserInfoMapper.class);
+        //4.执行方法
+        userInfoMapper.deleteById(id);
+
+        //提交事务
+        sqlSession.commit();
         //5.释放资源
         sqlSession.close();
     }

@@ -10,15 +10,17 @@
         <result column="real_name" property="realName"/>
     </resultMap>
 
-<!--
-    <select id="findUserInfoById" resultType="UserInfo">
-        select *
-        from user_info
-        where id = #{id};
-    </select>
--->
-    <!--单条件模糊查询(按名称)
-        <select id="selectByCondition" resultMap="userInfoResultMap">
+
+    <!--
+        <select id="findUserInfoById" resultType="UserInfo">
+            select *
+            from user_info
+            where id = #{id};
+        </select>
+    -->
+    <!--单条件模糊查询(按名称)-->
+    <!--
+        <select id="findUserInfoByName" resultMap="userInfoResultMap">
             select *
             from user_info
             where user_name like #{userName}
@@ -57,5 +59,46 @@
             </choose>
         </where>
     </select>
+
+<!--
+    <update id="update">
+        update user_info
+        <set>
+            <if test="userName != null and userName != ''">
+                user_name = #{userName}
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password}
+            </if>
+            <if test="realName != null and realName != ''">
+                real_name = #{realName}
+            </if>
+            <if test="sex != null and sex != ''">
+                sex = #{sex}
+            </if>
+            <if test="userName != null and userName != ''">
+                address = #{address}
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email}
+            </if>
+            <if test="regDate != null and regDate != ''">
+                regDate = #{regDate}
+            </if>
+            <if test="status != null">
+                status = #{status}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+-->
+
+<!--
+    <delete id="deleteById">
+        delete
+        from user_info
+        where id = #{id}
+    </delete>
+-->
 
 </mapper>

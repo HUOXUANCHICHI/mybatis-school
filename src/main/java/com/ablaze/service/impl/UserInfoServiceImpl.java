@@ -8,7 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
 /**
- * @author CHICHI
+ * @author CHIHCI
  */
 public class UserInfoServiceImpl implements UserInfoService {
     /**
@@ -18,6 +18,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     public UserInfo findUserInfoById(int id) {
+
         //2. 获取SqlSession
         SqlSession sqlSession = factory.openSession();
         //3. 获取UserInfoMapper
