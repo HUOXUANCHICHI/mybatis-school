@@ -25,6 +25,7 @@ public interface UserInfoMapper {
      * @return
      */
     @Select("select * from user_info where user_name like #{userName}")
+    @ResultMap("userInfoResultMap")
     List<UserInfo> findUserInfoByName(UserInfo userInfo);
 
     /**

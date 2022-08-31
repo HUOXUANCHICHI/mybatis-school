@@ -7,7 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.Test;
 
-import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 public class MyBatis01Test {
@@ -17,7 +17,7 @@ public class MyBatis01Test {
     SqlSessionFactory factory = SqlSessionFactoryUtils.getSqlSessionFactory();
 
     @Test
-    public void testSelectById() throws IOException {
+    public void testSelectById() {
 
         //接收参数
         int id = 2;
@@ -53,25 +53,20 @@ public class MyBatis01Test {
         //3.获取Mapper接口的代理对象
         UserInfoMapper userInfoMapper = sqlSession.getMapper(UserInfoMapper.class);
         //4.执行方法
-        List<UserInfo> userInfos = userInfoMapper.selectByCondition(userInfo);
+        List<UserInfo> userInfos = userInfoMapper.findUserInfoByName(userInfo);
 //        System.out.println(userInfos);
         userInfos.forEach(System.out::println);
         //5.释放资源
         sqlSession.close();
     }
 
-    /**
-     * 多条件模糊查询
-     *
-     * @throws IOException
-     */
     @Test
     public void testSelectByCondition() {
 
         //接收参数
         int status = 1;
-        String userName = "1";
-        String realName = "1";
+        String userName = "i";
+        String realName = "赤";
 
         //处理参数
         userName = "%" + userName + "%";
@@ -88,7 +83,8 @@ public class MyBatis01Test {
         UserInfoMapper userInfoMapper = sqlSession.getMapper(UserInfoMapper.class);
         //4.执行方法
         List<UserInfo> userInfos = userInfoMapper.selectByCondition(userInfo);
-        System.out.println(userInfos);
+//        System.out.println(userInfos);
+        userInfos.forEach(System.out::println);
         //5.释放资源
         sqlSession.close();
     }
@@ -115,7 +111,8 @@ public class MyBatis01Test {
         UserInfoMapper userInfoMapper = sqlSession.getMapper(UserInfoMapper.class);
         //4.执行方法
         List<UserInfo> userInfos = userInfoMapper.selectByCondition(userInfo);
-        System.out.println(userInfos);
+//        System.out.println(userInfos);
+        userInfos.forEach(System.out::println);
         //5.释放资源
         sqlSession.close();
     }
@@ -129,9 +126,7 @@ public class MyBatis01Test {
         String sex = "0";
         String address = "11";
         String email = "11";
-//        Date regDate = "1970-01-09";
-//        Date regDate = new Date();
-//        System.out.println(regDate.toString());
+        Date regDate = new Date();
         UserInfo userInfo = new UserInfo();
         userInfo.setUserName(userName);
         userInfo.setPassword(password);
@@ -139,7 +134,7 @@ public class MyBatis01Test {
         userInfo.setSex(sex);
         userInfo.setAddress(address);
         userInfo.setEmail(email);
-//        userInfo.setRegDate(regDate);
+        userInfo.setRegDate(regDate);
         userInfo.setStatus(status);
 
         //2. 获取SqlSession对象
@@ -165,7 +160,7 @@ public class MyBatis01Test {
         String sex = "0";
         String address = "11";
         String email = "11";
-//        Date regDate = "1970-01-09";
+        Date regDate = new Date();
         int id = 4;
 
         //封装对象
@@ -176,7 +171,7 @@ public class MyBatis01Test {
         userInfo.setSex(sex);
         userInfo.setAddress(address);
         userInfo.setEmail(email);
-//        userInfo.setRegDate(regDate);
+        userInfo.setRegDate(regDate);
         userInfo.setStatus(status);
         userInfo.setId(id);
 
