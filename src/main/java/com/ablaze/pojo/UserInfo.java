@@ -17,15 +17,15 @@ public class UserInfo {
     /**
      * id 主键
      */
-    private Integer id;
+    private Integer uid;
     /**
      * 用户名称
      */
-    private String userName;
+    private String uname;
     /**
      * 密码
      */
-    private String password;
+    private String upass;
     /**
      * 真名
      */

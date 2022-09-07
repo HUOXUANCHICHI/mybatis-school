@@ -6,24 +6,24 @@
 <mapper namespace="com.ablaze.mapper.UserInfoMapper">
 
     <resultMap id="userInfoResultMap" type="userInfo">
-        <result column="user_name" property="userName"/>
-        <result column="real_name" property="realName"/>
+        <result column="id" property="uid"/>
+        <result column="userName" property="uname"/>
+        <result column="password" property="upass"/>
     </resultMap>
+    <!--与ruseltMap冲突(表名与字段名不一致时)-->
+    <!--    <sql id="userInfoColumns">id,userName,password</sql>-->
 
-
-    <!--
-        <select id="findUserInfoById" resultType="UserInfo">
-            select *
-            from user_info
-            where id = #{id};
-        </select>
-    -->
+    <select id="findUserInfoById" resultMap="userInfoResultMap">
+        select *<!--<include refid="userInfoColumns"></include>-->
+        from user_info
+        where id = #{uid};
+    </select>
     <!--单条件模糊查询(按名称)-->
     <!--
         <select id="findUserInfoByName" resultMap="userInfoResultMap">
             select *
             from user_info
-            where user_name like #{userName}
+            where userName like #{uname}
         </select>
     -->
     <!--多条件模糊查询-->
@@ -33,11 +33,11 @@
             <if test="status != null">
                 and status = #{status}
             </if>
-            <if test="userName != null and userName != '' ">
-                and user_name like #{userName}
+            <if test="uname != null and uname != '' ">
+                and userName like #{uname}
             </if>
-            <if test="realName != null and realName != '' ">
-                and real_name like #{realName}
+            <if test="upass != null and upass != '' ">
+                and password like #{upass}
             </if>
         </where>
     </select>
@@ -50,55 +50,57 @@
                 <when test="status != null">
                     status = #{status}
                 </when>
-                <when test="userName != null and userName != ''">
-                    and user_name like #{userName}
+                <when test="uname != null and uname != ''">
+                    and userName like #{uname}
                 </when>
-                <when test="userName != null and userName != '' ">
-                    real_name like #{realName}
+                <when test="upass != null and upass != '' ">
+                    password like #{upass}
                 </when>
             </choose>
         </where>
     </select>
 
-<!--
-    <update id="update">
-        update user_info
-        <set>
-            <if test="userName != null and userName != ''">
-                user_name = #{userName}
-            </if>
-            <if test="password != null and password != ''">
-                password = #{password}
-            </if>
-            <if test="realName != null and realName != ''">
-                real_name = #{realName}
-            </if>
-            <if test="sex != null and sex != ''">
-                sex = #{sex}
-            </if>
-            <if test="userName != null and userName != ''">
-                address = #{address}
-            </if>
-            <if test="email != null and email != ''">
-                email = #{email}
-            </if>
-            <if test="regDate != null and regDate != ''">
-                regDate = #{regDate}
-            </if>
-            <if test="status != null">
-                status = #{status}
-            </if>
-        </set>
-        where id = #{id}
-    </update>
--->
+    <insert id="addUserInfo" useGeneratedKeys="true" keyProperty="uid">
+        insert into user_info (userName, password, realName, sex, address, email, regDate, status)
+        VALUES (#{uname}, #{upass}, #{realName}, #{sex}, #{address}, #{email}, #{regDate}, #{status})
+    </insert>
+        <update id="updateUserInfo">
+            update user_info
+            <set>
+                <if test="uname != null and uname != ''">
+                    userName = #{uname},
+                </if>
+                <if test="upass != null and upass != ''">
+                    password = #{upass},
+                </if>
+                <if test="realName != null and realName != ''">
+                    realName = #{realName},
+                </if>
+                <if test="sex != null and sex != ''">
+                    sex = #{sex},
+                </if>
+                <if test="address != null and address != ''">
+                    address = #{address},
+                </if>
+                <if test="email != null and email != ''">
+                    email = #{email},
+                </if>
+                <if test="regDate != null">
+                    regDate = #{regDate},
+                </if>
+                <if test="status != null">
+                    status = #{status},
+                </if>
+            </set>
+            where id = #{uid};
+        </update>
 
-<!--
-    <delete id="deleteById">
-        delete
-        from user_info
-        where id = #{id}
-    </delete>
--->
+    <!--
+        <delete id="deleteUserInfoById">
+            delete
+            from user_info
+            where id = #{uid}
+        </delete>
+    -->
 
 </mapper>
