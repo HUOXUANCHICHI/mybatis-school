@@ -90,6 +90,33 @@ public class MyBatis01Test {
     }
 
     @Test
+    public void testSelectByNameAndSex() {
+
+        //接收参数
+        String uname = "i";
+        String sex = "1";
+
+        //处理参数
+        uname = "%" + uname + "%";
+        sex = "%" + sex + "%";
+        //封装对象
+        UserInfo userInfo = new UserInfo();
+//        userInfo.setUname(uname);
+        userInfo.setSex(sex);
+
+        //2. 获取SqlSession对象
+        SqlSession sqlSession = factory.openSession();
+        //3.获取Mapper接口的代理对象
+        UserInfoMapper userInfoMapper = sqlSession.getMapper(UserInfoMapper.class);
+        //4.执行方法
+        List<UserInfo> userInfos = userInfoMapper.selectByNameAndSex(userInfo);
+//        System.out.println(userInfos);
+        userInfos.forEach(System.out::println);
+        //5.释放资源
+        sqlSession.close();
+    }
+
+    @Test
     public void testSelectByConditionSingle() {
         //接收参数
         int status = 1;

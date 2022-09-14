@@ -41,6 +41,20 @@
             </if>
         </where>
     </select>
+
+    <!--多条件模糊查询(姓名，性别）-->
+    <select id="selectByNameAndSex" resultMap="userInfoResultMap">
+        select * from user_info
+        <where>
+            <if test="uname != null and uname != '' ">
+                and userName like #{uname}
+            </if>
+            <if test="sex != null and sex != '' ">
+                 and sex like #{sex}
+            </if>
+        </where>
+    </select>
+
     <!--条件动态查询-->
     <select id="selectByConditionSingle" resultMap="userInfoResultMap">
         select *
@@ -58,6 +72,11 @@
                 </when>
             </choose>
         </where>
+    </select>
+
+    <!---->
+    <select id="findUserInfoOrderByColumn">
+        select * from user_info order by ${uname} desc
     </select>
 
     <insert id="addUserInfo" useGeneratedKeys="true" keyProperty="uid">

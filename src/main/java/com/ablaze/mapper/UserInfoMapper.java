@@ -39,6 +39,14 @@ public interface UserInfoMapper {
     List<UserInfo> selectByCondition(UserInfo userInfo);
 
     /**
+     *
+     * 根据用户姓名和性别进行查询
+     * @param userInfo
+     * @return
+     */
+    List<UserInfo> selectByNameAndSex(UserInfo userInfo);
+
+    /**
      * 条件动态查询
      *
      * @param userInfo
