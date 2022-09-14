@@ -69,8 +69,8 @@ public class MyBatis01Test {
         String realName = "赤";
 
         //处理参数
-        uname = "%" + uname + "%";
-        realName = "%" + realName + "%";
+/*        uname = "%" + uname + "%";
+        realName = "%" + realName + "%";*/
         //封装对象
         UserInfo userInfo = new UserInfo();
         userInfo.setStatus(status);
@@ -97,8 +97,8 @@ public class MyBatis01Test {
         String sex = "1";
 
         //处理参数
-        uname = "%" + uname + "%";
-        sex = "%" + sex + "%";
+/*        uname = "%" + uname + "%";
+        sex = "%" + sex + "%";*/
         //封装对象
         UserInfo userInfo = new UserInfo();
 //        userInfo.setUname(uname);
@@ -124,8 +124,8 @@ public class MyBatis01Test {
         String realName = "赤赤";
 
         //处理参数
-        uname = "%" + uname + "%";
-        realName = "%" + realName + "%";
+/*        uname = "%" + uname + "%";
+        realName = "%" + realName + "%";*/
         //封装对象
         UserInfo userInfo = new UserInfo();
         userInfo.setStatus(status);
@@ -137,7 +137,7 @@ public class MyBatis01Test {
         //3.获取Mapper接口的代理对象
         UserInfoMapper userInfoMapper = sqlSession.getMapper(UserInfoMapper.class);
         //4.执行方法
-        List<UserInfo> userInfos = userInfoMapper.selectByCondition(userInfo);
+        List<UserInfo> userInfos = userInfoMapper.selectByConditionSingle(userInfo);
 //        System.out.println(userInfos);
         userInfos.forEach(System.out::println);
         //5.释放资源

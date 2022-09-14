@@ -19,13 +19,11 @@
         where id = #{uid};
     </select>
     <!--单条件模糊查询(按名称)-->
-    <!--
-        <select id="findUserInfoByName" resultMap="userInfoResultMap">
+<!--        <select id="findUserInfoByName" resultMap="userInfoResultMap">
             select *
             from user_info
             where userName like #{uname}
-        </select>
-    -->
+        </select>-->
     <!--多条件模糊查询-->
     <select id="selectByCondition" resultMap="userInfoResultMap">
         select * from user_info
@@ -34,10 +32,10 @@
                 and status = #{status}
             </if>
             <if test="uname != null and uname != '' ">
-                and userName like #{uname}
+                and userName like concat('%',#{uname},'%')
             </if>
             <if test="upass != null and upass != '' ">
-                and password like #{upass}
+                and password like concat('%',#{upass},'%')
             </if>
         </where>
     </select>
@@ -47,10 +45,10 @@
         select * from user_info
         <where>
             <if test="uname != null and uname != '' ">
-                and userName like #{uname}
+                and userName like concat('%',#{uname},'%')
             </if>
             <if test="sex != null and sex != '' ">
-                 and sex like #{sex}
+                 and sex like concat('%',#{sex},'%')
             </if>
         </where>
     </select>
@@ -65,16 +63,16 @@
                     status = #{status}
                 </when>
                 <when test="uname != null and uname != ''">
-                    and userName like #{uname}
+                    and userName like concat('%',#{uname},'%')
                 </when>
                 <when test="upass != null and upass != '' ">
-                    password like #{upass}
+                    password like concat('%',#{upass},'%')
                 </when>
             </choose>
         </where>
     </select>
 
-    <!---->
+    <!--动态排序-->
     <select id="findUserInfoOrderByColumn">
         select * from user_info order by ${uname} desc
     </select>
@@ -111,7 +109,7 @@
                     status = #{status},
                 </if>
             </set>
-            where id = #{uid};
+            where id = #{uid}
         </update>
 
     <!--
