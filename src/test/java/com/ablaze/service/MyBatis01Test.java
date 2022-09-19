@@ -90,7 +90,7 @@ public class MyBatis01Test {
     }
 
     @Test
-    public void testSelectByNameAndSex() {
+    public void testSelectByNameAndSexWithIf() {
 
         //接收参数
         String uname = "i";
@@ -109,7 +109,36 @@ public class MyBatis01Test {
         //3.获取Mapper接口的代理对象
         UserInfoMapper userInfoMapper = sqlSession.getMapper(UserInfoMapper.class);
         //4.执行方法
-        List<UserInfo> userInfos = userInfoMapper.selectByNameAndSex(userInfo);
+        List<UserInfo> userInfos = userInfoMapper.selectByNameAndSexWithIf(userInfo);
+//        System.out.println(userInfos);
+        userInfos.forEach(System.out::println);
+        //5.释放资源
+        sqlSession.close();
+    }
+
+    @Test
+    public void findUserInfoByNameAndSex_Choose() {
+
+        //接收参数
+        String uname = "i";
+        String sex = "1";
+        String email = "111";
+
+        //处理参数
+/*        uname = "%" + uname + "%";
+        sex = "%" + sex + "%";*/
+        //封装对象
+        UserInfo userInfo = new UserInfo();
+//        userInfo.setUname(uname);
+//        userInfo.setSex(sex);
+        userInfo.setEmail(email);
+
+        //2. 获取SqlSession对象
+        SqlSession sqlSession = factory.openSession();
+        //3.获取Mapper接口的代理对象
+        UserInfoMapper userInfoMapper = sqlSession.getMapper(UserInfoMapper.class);
+        //4.执行方法
+        List<UserInfo> userInfos = userInfoMapper.findUserInfoByNameAndSexWithChoose(userInfo);
 //        System.out.println(userInfos);
         userInfos.forEach(System.out::println);
         //5.释放资源
@@ -138,6 +167,23 @@ public class MyBatis01Test {
         UserInfoMapper userInfoMapper = sqlSession.getMapper(UserInfoMapper.class);
         //4.执行方法
         List<UserInfo> userInfos = userInfoMapper.selectByConditionSingle(userInfo);
+//        System.out.println(userInfos);
+        userInfos.forEach(System.out::println);
+        //5.释放资源
+        sqlSession.close();
+    }
+
+    @Test
+    public void findUserInfoForeach() {
+        //接收参数
+        int[] ids = {1,2,3};
+
+        //2. 获取SqlSession对象
+        SqlSession sqlSession = factory.openSession();
+        //3.获取Mapper接口的代理对象
+        UserInfoMapper userInfoMapper = sqlSession.getMapper(UserInfoMapper.class);
+        //4.执行方法
+        List<UserInfo> userInfos = userInfoMapper.findUserInfoForeach(ids);
 //        System.out.println(userInfos);
         userInfos.forEach(System.out::println);
         //5.释放资源
@@ -182,7 +228,7 @@ public class MyBatis01Test {
     @Test
     public void testUpdateUserInfo() {
         //接收参数
-        int status = 1;
+        int status = 0;
         String uname = "chichi4";
         String upass = "5";
         String realName = "赤赤4";
@@ -210,7 +256,9 @@ public class MyBatis01Test {
         UserInfoMapper userInfoMapper = sqlSession.getMapper(UserInfoMapper.class);
         //4.执行方法
         int count = userInfoMapper.updateUserInfo(userInfo);
-        System.out.println(count);
+        if (count > 0) {
+            System.out.println("修改了" + count + "行");
+        } else System.out.println("修改失败");
         //提交事务
         sqlSession.commit();
         //5.释放资源

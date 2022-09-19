@@ -44,7 +44,15 @@ public interface UserInfoMapper {
      * @param userInfo
      * @return
      */
-    List<UserInfo> selectByNameAndSex(UserInfo userInfo);
+    List<UserInfo> selectByNameAndSexWithIf(UserInfo userInfo);
+
+    /**
+     * 根据用户姓名和性别进行查询，若都无则判断邮件是否为空
+     * @param userInfo
+     * @return
+     */
+    List<UserInfo> findUserInfoByNameAndSexWithChoose(UserInfo userInfo);
+
 
     /**
      * 条件动态查询
@@ -54,6 +62,12 @@ public interface UserInfoMapper {
      */
     List<UserInfo> selectByConditionSingle(UserInfo userInfo);
 
+    /**
+     * 根据ids查询
+     * @param ids
+     * @return
+     */
+    List<UserInfo> findUserInfoForeach(@Param("ids") int[] ids);
     /**
      * 添加数据
      *

@@ -19,11 +19,11 @@
         where id = #{uid};
     </select>
     <!--单条件模糊查询(按名称)-->
-<!--        <select id="findUserInfoByName" resultMap="userInfoResultMap">
-            select *
-            from user_info
-            where userName like #{uname}
-        </select>-->
+    <!--        <select id="findUserInfoByName" resultMap="userInfoResultMap">
+                select *
+                from user_info
+                where userName like #{uname}
+            </select>-->
     <!--多条件模糊查询-->
     <select id="selectByCondition" resultMap="userInfoResultMap">
         select * from user_info
@@ -41,16 +41,34 @@
     </select>
 
     <!--多条件模糊查询(姓名，性别）-->
-    <select id="selectByNameAndSex" resultMap="userInfoResultMap">
+    <!--动态SQL-if-->
+    <select id="selectByNameAndSexWithIf" resultMap="userInfoResultMap">
         select * from user_info
         <where>
             <if test="uname != null and uname != '' ">
                 and userName like concat('%',#{uname},'%')
             </if>
             <if test="sex != null and sex != '' ">
-                 and sex like concat('%',#{sex},'%')
+                and sex = #{sex}
             </if>
         </where>
+    </select>
+    <!--动态SQL choose when otherwise-->
+    <select id="findUserInfoByNameAndSexWithChoose" resultMap="userInfoResultMap">
+        select * from user_info
+        <trim prefix="where" prefixOverrides="and">
+            <choose>
+                <when test="uname != null and uname != '' ">
+                    and userName like concat('%',#{uname},'%')
+                </when>
+                <when test="sex != null and sex != '' ">
+                    and sex = #{sex}
+                </when>
+                <otherwise>
+                    and email is not null
+                </otherwise>
+            </choose>
+        </trim>
     </select>
 
     <!--条件动态查询-->
@@ -72,45 +90,88 @@
         </where>
     </select>
 
+    <!--动态SQL foreach-->
+    <select id="findUserInfoForeach" resultMap="userInfoResultMap">
+        select * from user_info
+        where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </select>
     <!--动态排序-->
     <select id="findUserInfoOrderByColumn">
-        select * from user_info order by ${uname} desc
+        select *
+        from user_info
+        order by ${uname} desc
     </select>
 
     <insert id="addUserInfo" useGeneratedKeys="true" keyProperty="uid">
         insert into user_info (userName, password, realName, sex, address, email, regDate, status)
         VALUES (#{uname}, #{upass}, #{realName}, #{sex}, #{address}, #{email}, #{regDate}, #{status})
     </insert>
-        <update id="updateUserInfo">
-            update user_info
-            <set>
-                <if test="uname != null and uname != ''">
-                    userName = #{uname},
-                </if>
-                <if test="upass != null and upass != ''">
-                    password = #{upass},
-                </if>
-                <if test="realName != null and realName != ''">
-                    realName = #{realName},
-                </if>
-                <if test="sex != null and sex != ''">
-                    sex = #{sex},
-                </if>
-                <if test="address != null and address != ''">
-                    address = #{address},
-                </if>
-                <if test="email != null and email != ''">
-                    email = #{email},
-                </if>
-                <if test="regDate != null">
-                    regDate = #{regDate},
-                </if>
-                <if test="status != null">
-                    status = #{status},
-                </if>
-            </set>
-            where id = #{uid}
-        </update>
+
+    <!--动态SQL if+set-->
+<!--    <update id="updateUserInfo">
+        update user_info
+        <set>
+            <if test="uname != null and uname != ''">
+                userName = #{uname},
+            </if>
+            <if test="upass != null and upass != ''">
+                password = #{upass},
+            </if>
+            <if test="realName != null and realName != ''">
+                realName = #{realName},
+            </if>
+            <if test="sex != null and sex != ''">
+                sex = #{sex},
+            </if>
+            <if test="address != null and address != ''">
+                address = #{address},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="regDate != null">
+                regDate = #{regDate},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        where id = #{uid}
+    </update>
+ -->
+    <update id="updateUserInfo">
+        update user_info
+        <trim prefix="set" suffixOverrides=",">
+            <if test="uname != null and uname != ''">
+                userName = #{uname},
+            </if>
+            <if test="upass != null and upass != ''">
+                password = #{upass},
+            </if>
+            <if test="realName != null and realName != ''">
+                realName = #{realName},
+            </if>
+            <if test="sex != null and sex != ''">
+                sex = #{sex},
+            </if>
+            <if test="address != null and address != ''">
+                address = #{address},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="regDate != null">
+                regDate = #{regDate},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </trim>
+        where id = #{uid}
+    </update>
 
     <!--
         <delete id="deleteUserInfoById">
