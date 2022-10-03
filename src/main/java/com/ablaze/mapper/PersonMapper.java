@@ -14,4 +14,11 @@ public interface PersonMapper {
      * @return
      */
     Person findPersonById(int id);
+
+    /**
+     * 根据personId查询person全部信息和idcard全部信息
+     * @param id
+     * @return
+     */
+    Person findPersonAndIdCardByPersonId(int id);
 }

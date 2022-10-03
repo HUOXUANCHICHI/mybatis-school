@@ -18,7 +18,7 @@ public class Person {
     private int age;
     private String sex;
     /**
-     * 关联属性
+     * 关联属性（一对一）
      */
     private IdCard idcard;
 }

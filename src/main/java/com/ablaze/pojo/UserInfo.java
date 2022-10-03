@@ -30,17 +30,8 @@ public class UserInfo {
      * 真名
      */
     private String realName;
-    /**
-     * 性别
-     */
     private String sex;
-    /**
-     * 地址
-     */
     private String address;
-    /**
-     * 邮箱
-     */
     private String email;
     /**
      * 日期
