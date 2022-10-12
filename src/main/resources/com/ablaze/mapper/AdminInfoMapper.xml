@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace命名空间,包含+SQL映射文件名-->
+<mapper namespace="com.ablaze.mapper.AdminInfoMapper">
+
+    <resultMap id="adminInfoMap" type="AdminInfo">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <collection property="fs" ofType="Functions" column="id"
+                    select="com.ablaze.mapper.FunctionsMapper.findFunctionsByAid"/>
+    </resultMap>
+
+    <resultMap id="adminInfoMap2" type="AdminInfo">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <collection property="fs" ofType="Functions">
+            <id property="id" column="aid"/>
+            <id property="id" column="fid"/>
+            <result property="name" column="name"/>
+        </collection>
+    </resultMap>
+
+    <select id="findAdminInfoById" resultMap="adminInfoMap" parameterType="int">
+        select *
+        from admin_info as a
+        where id = #{id};
+    </select>
+
+    <select id="findAdminInfoById2" resultMap="adminInfoMap2" parameterType="int">
+    select f.id, f.name
+    from powers p
+             join admin_info a on a.id = p.aid
+             join functions f on f.id = p.fid
+    where a.id = #{id};
+    </select>
+
+</mapper>

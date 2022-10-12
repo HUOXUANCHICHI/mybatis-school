@@ -6,10 +6,21 @@
 <mapper namespace="com.ablaze.mapper.TypeMapper">
 
     <resultMap id="typeMap" type="Type">
-        <id property="id" column="id"></id>
-        <result property="name" column="name"></result>
-        <collection property="pis" column="id" select="com.ablaze.mapper.ProductInfoMapper.findProductInfoById"></collection>
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <collection property="pis" column="id" select="com.ablaze.mapper.ProductInfoMapper.findProductInfoById"/>
     </resultMap>
+
+    <insert id="addType" keyProperty="id" useGeneratedKeys="true">
+        insert into type(name) values (#{name})
+    </insert>
+    <!--delete from product_info where tid = #{id};
+        delete from type where id = #{id};-->
+    <!--delete p from type as t inner join product_info as p on t.id = p.tid where t.id = #{id};-->
+    <!--delete t from type as t where t.id = #{id};-->
+    <delete id="deleteTypeById">
+        delete t from type as t where t.id = #{id};
+    </delete>
 
     <select id="findTypeById" resultMap="typeMap">
         select * from type where id = #{id}

@@ -18,5 +18,5 @@ public class ProductInfo {
     /**
      * 关联属性
      */
-//    private Type type;
+    private Type type;
 }

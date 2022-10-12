@@ -14,4 +14,8 @@ public interface ProductInfoMapper {
      * @return
      */
     ProductInfo findProductInfoById(int id);
+
+    void  addProductInfo(ProductInfo pi);
+
+    void deleteProductInfoById(int id);
 }

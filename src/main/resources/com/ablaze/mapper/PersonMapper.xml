@@ -13,13 +13,13 @@
     </resultMap>
 
     <resultMap id="personMap2" type="Person">
-        <id property="id" column="id"></id>
-        <result property="name" column="name"></result>
-        <result property="age" column="age"></result>
-        <result property="sex" column="sex"></result>
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="age" column="age"/>
+        <result property="sex" column="sex"/>
         <association property="idcard" javaType="Idcard">
-            <id property="id" column="card_id"></id>
-            <result property="cno" column="cno"></result>
+            <id property="id" column="card_id"/>
+            <result property="cno" column="cno"/>
         </association>
     </resultMap>
 

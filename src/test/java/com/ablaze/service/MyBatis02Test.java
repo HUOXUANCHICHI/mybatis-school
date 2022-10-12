@@ -1,11 +1,7 @@
 package com.ablaze.service;
 
-import com.ablaze.mapper.IdCardMapper;
-import com.ablaze.mapper.PersonMapper;
-import com.ablaze.mapper.TypeMapper;
-import com.ablaze.pojo.IdCard;
-import com.ablaze.pojo.Person;
-import com.ablaze.pojo.Type;
+import com.ablaze.mapper.*;
+import com.ablaze.pojo.*;
 import com.ablaze.util.SqlSessionFactoryUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -76,6 +72,7 @@ public class MyBatis02Test {
 
     }
 
+    //一对多 嵌套查询
     @Test
     public void testFindTypeId() {
 
@@ -93,4 +90,86 @@ public class MyBatis02Test {
         sqlSession.close();
 
     }
+
+    //一对多添加
+    @Test
+    public void addTypeTest(){
+        //接收参数
+        String name1 = "打印机";
+        String name2 = "HP1306";
+        String name3 = "HP11103";
+        String code1 = "1111";
+        String code2 = "2222";
+
+        //2. 获取SqlSession对象
+        SqlSession sqlSession = factory.openSession();
+        //3.获取Mapper接口的代理对象
+        TypeMapper typeMapper = sqlSession.getMapper(TypeMapper.class);
+        ProductInfoMapper productInfoMapper = sqlSession.getMapper(ProductInfoMapper.class);
+        //4.执行方法
+        Type type = new Type();
+        type.setName(name1);
+        typeMapper.addType(type);
+        ProductInfo p1 = new ProductInfo();
+        ProductInfo p2 = new ProductInfo();
+        p1.setCode(code1);
+        p1.setName(name2);
+        p2.setCode(code2);
+        p2.setName(name3);
+        p1.setType(type);
+        p2.setType(type);
+        productInfoMapper.addProductInfo(p1);
+        productInfoMapper.addProductInfo(p2);
+        sqlSession.commit();
+        //5.释放资源
+        sqlSession.close();
+    }
+
+    @Test
+    public void deleteTypeTest(){
+        //接收参数
+        int id = 8;
+
+        //2. 获取SqlSession对象
+        SqlSession sqlSession = factory.openSession();
+        //3.获取Mapper接口的代理对象
+        TypeMapper typeMapper = sqlSession.getMapper(TypeMapper.class);
+        //4.执行方法
+        ProductInfoMapper productInfoMapper = sqlSession.getMapper(ProductInfoMapper.class);
+        productInfoMapper.deleteProductInfoById(id);
+        typeMapper.deleteTypeById(id);
+        sqlSession.commit();
+        //5.释放资源
+        sqlSession.close();
+    }
+
+    //多对多查询 嵌套查询
+    @Test
+    public void findAdminInfoByIdTest() {
+        //接收参数
+        int id = 1;
+        //2. 获取SqlSession对象
+        SqlSession sqlSession = factory.openSession();
+        //3.获取Mapper接口的代理对象
+        AdminInfoMapper adminInfoMapper = sqlSession.getMapper(AdminInfoMapper.class);
+        AdminInfo adminInfoById = adminInfoMapper.findAdminInfoById(id);
+        System.out.println(adminInfoById);
+        //5.释放资源
+        sqlSession.close();
+    }
+    //多对多查询 嵌套查询结果
+    @Test
+    public void findAdminInfoByIdTest2() {
+        //接收参数
+        int id = 1;
+        //2. 获取SqlSession对象
+        SqlSession sqlSession = factory.openSession();
+        //3.获取Mapper接口的代理对象
+        AdminInfoMapper adminInfoMapper = sqlSession.getMapper(AdminInfoMapper.class);
+        AdminInfo adminInfoById = adminInfoMapper.findAdminInfoById2(id);
+        System.out.println(adminInfoById);
+        //5.释放资源
+        sqlSession.close();
+    }
+
 }

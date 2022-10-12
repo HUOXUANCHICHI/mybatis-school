@@ -14,4 +14,8 @@ public interface TypeMapper {
      * @return
      */
     Type findTypeById(int id);
+
+    void addType(Type type);
+
+    void deleteTypeById(int id);
 }
