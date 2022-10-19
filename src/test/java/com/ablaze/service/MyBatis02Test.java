@@ -36,6 +36,7 @@ public class MyBatis02Test {
 
     }
 
+    //一对一 嵌套查询
     @Test
     public void testSelectPersonById() {
 
@@ -54,6 +55,7 @@ public class MyBatis02Test {
 
     }
 
+    //一对一 嵌套查询结果
     @Test
     public void testFindPersonAndIdCardByPersonId() {
 
@@ -91,7 +93,45 @@ public class MyBatis02Test {
 
     }
 
-    //一对多添加
+    //一对一 嵌套查询
+    @Test
+    public void testFindProductInfoByIdYY() {
+
+        //接收参数
+        int id = 1;
+
+        //2. 获取SqlSession对象
+        SqlSession sqlSession = factory.openSession();
+        //3.获取Mapper接口的代理对象
+        ProductInfoMapper productInfoMapper = sqlSession.getMapper(ProductInfoMapper.class);
+        //4.执行方法
+        ProductInfo productInfo = productInfoMapper.findProductInfoByIdYY(id);
+        System.out.println(productInfo);
+        //5.释放资源
+        sqlSession.close();
+
+    }
+
+    //一对多 嵌套查询结果
+    @Test
+    public void testFindTypeId2() {
+
+        //接收参数
+        int id = 1;
+
+        //2. 获取SqlSession对象
+        SqlSession sqlSession = factory.openSession();
+        //3.获取Mapper接口的代理对象
+        TypeMapper typeMapper = sqlSession.getMapper(TypeMapper.class);
+        //4.执行方法
+        Type typeById = typeMapper.findTypeById2(id);
+        System.out.println(typeById);
+        //5.释放资源
+        sqlSession.close();
+
+    }
+
+    //一对多 数据插入
     @Test
     public void addTypeTest(){
         //接收参数

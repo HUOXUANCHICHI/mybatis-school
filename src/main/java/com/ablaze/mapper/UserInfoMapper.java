@@ -16,8 +16,13 @@ public interface UserInfoMapper {
      * @param uid
      * @return
      */
-    //@Select("select * from user_info where id = #{id}")
-    //@ResultMap("userInfoResultMap")
+    @Select("select * from user_info where id = #{id}")
+    @Results({
+            @Result(column = "id", property = "uid"),
+            @Result(column = "userName", property = "uname"),
+            @Result(column = "password", property = "upass")
+    })
+//    @ResultMap("userInfoResultMap")
     UserInfo findUserInfoById(int uid);
 
     /**
@@ -26,8 +31,9 @@ public interface UserInfoMapper {
      * @param userInfo
      * @return
      */
-    @Select("select * from user_info where userName like #{uname}")
-    @ResultMap("userInfoResultMap")
+    @Select("select * from user_info where userName like concat('%',#{uname},'%')")
+    @ResultMap(value = "userInfoResultMap")
+//    @ResultMap("userInfoResultMap")
     List<UserInfo> findUserInfoByName(UserInfo userInfo);
 
     /**
@@ -73,7 +79,7 @@ public interface UserInfoMapper {
      *
      * @param userInfo
      */
-    //@Insert("insert into user_info values (null,#{uname},#{upass},#{realName},#{sex},#{address},#{email},#{regDate},#{status})")
+    @Insert("insert into user_info values (null,#{uname},#{upass},#{realName},#{sex},#{address},#{email},#{regDate},#{status})")
     void addUserInfo(UserInfo userInfo);
 
     /**
@@ -82,14 +88,14 @@ public interface UserInfoMapper {
      * @param userInfo
      * @return
      */
-    /*@Update("update user_info set userName = #{uname}," +
+    @Update("update user_info set userName = #{uname}," +
             "password = #{upass}," +
             "realName = #{realName}," +
             "sex = #{sex}," +
             "address = #{address}," +
             "email = #{email}," +
             "regDate = #{regDate}," +
-            "status = #{status} where id = #{uid}")*/
+            "status = #{status} where id = #{uid}")
     int updateUserInfo(UserInfo userInfo);
 
     /**

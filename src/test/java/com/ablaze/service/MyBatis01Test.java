@@ -16,6 +16,7 @@ public class MyBatis01Test {
      */
     SqlSessionFactory factory = SqlSessionFactoryUtils.getSqlSessionFactory();
 
+    //单表
     @Test
     public void testSelectUserInfoById() {
 
@@ -42,7 +43,7 @@ public class MyBatis01Test {
         String uname = "i";
 
         //处理参数
-        uname = "%" + uname + "%";
+        /*uname = "%" + uname + "%";*/
 
         //封装对象
         UserInfo userInfo = new UserInfo();

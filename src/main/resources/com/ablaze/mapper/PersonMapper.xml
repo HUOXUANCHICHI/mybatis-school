@@ -6,6 +6,11 @@
 <mapper namespace="com.ablaze.mapper.PersonMapper">
 
     <resultMap id="personResultMap" type="Person">
+        <!--无作用代码，未知作用-->
+        <!--<id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="age" column="age"/>
+        <result property="sex" column="sex"/>-->
         <association property="idcard" column="cid"
                      select="com.ablaze.mapper.IdCardMapper.findIdCardById"
                      javaType="IdCard">
@@ -23,11 +28,12 @@
         </association>
     </resultMap>
 
-    <select id="findPersonById" resultMap="personResultMap">
+    <!--一对一 关联映射-->
+    <!--<select id="findPersonById" resultMap="personResultMap">
         select *
         from person
         where id = #{id}
-    </select>
+    </select>-->
 
     <select id="findPersonAndIdCardByPersonId" resultMap="personMap2">
         select p.*, i.id card_id, i.cno

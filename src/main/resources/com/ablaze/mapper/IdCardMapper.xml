@@ -5,10 +5,11 @@
 <!--namespace命名空间,包含+SQL映射文件名-->
 <mapper namespace="com.ablaze.mapper.IdCardMapper">
 
-    <select id="findIdCardById" resultType="IdCard">
+    <!--一对一 嵌套查询-->
+    <!--<select id="findIdCardById" resultType="IdCard">
         select *
         from idcard
         where id = #{id}
-    </select>
+    </select>-->
 
 </mapper>

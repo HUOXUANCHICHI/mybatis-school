@@ -13,8 +13,9 @@
         delete p from type as t inner join product_info as p on t.id = p.tid where t.id = #{id};
     </delete>
 
-    <select id="findProductInfoById" resultType="ProductInfo">
+    <!--一对多 嵌套查询-->
+    <!--<select id="findProductInfoById" resultType="ProductInfo">
         select * from product_info where tid = #{id}
-    </select>
+    </select>-->
 
 </mapper>

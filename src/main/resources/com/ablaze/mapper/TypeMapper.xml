@@ -11,19 +11,44 @@
         <collection property="pis" column="id" select="com.ablaze.mapper.ProductInfoMapper.findProductInfoById"/>
     </resultMap>
 
+    <resultMap id="typeMap2" type="Type">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <collection property="pis" ofType="ProductInfo">
+            <id property="id" column="pid"/>
+            <result property="code" column="code"/>
+            <result property="name" column="pname"/>
+        </collection>
+    </resultMap>
+
     <insert id="addType" keyProperty="id" useGeneratedKeys="true">
-        insert into type(name) values (#{name})
+        insert into type(name)
+        values (#{name})
     </insert>
+    <!--sql server-->
     <!--delete from product_info where tid = #{id};
         delete from type where id = #{id};-->
     <!--delete p from type as t inner join product_info as p on t.id = p.tid where t.id = #{id};-->
     <!--delete t from type as t where t.id = #{id};-->
     <delete id="deleteTypeById">
-        delete t from type as t where t.id = #{id};
+        delete t
+        from type as t
+        where t.id = #{id};
     </delete>
 
-    <select id="findTypeById" resultMap="typeMap">
-        select * from type where id = #{id}
+    <!--一对多 嵌套查询-->
+    <!--<select id="findTypeById" resultMap="typeMap">
+        select *
+        from type
+        where id = #{id}
+    </select>-->
+
+    <select id="findTypeById2" resultMap="typeMap2" parameterType="int">
+        select t.*, pi.id pid, pi.code, pi.name pname
+        from type t,
+             product_info pi
+        where pi.tid = t.id
+          and t.id = #{id}
     </select>
 
 </mapper>

@@ -16,9 +16,8 @@
         <id property="id" column="id"/>
         <result property="name" column="name"/>
         <collection property="fs" ofType="Functions">
-            <id property="id" column="aid"/>
             <id property="id" column="fid"/>
-            <result property="name" column="name"/>
+            <result property="name" column="fname"/>
         </collection>
     </resultMap>
 
@@ -29,11 +28,13 @@
     </select>
 
     <select id="findAdminInfoById2" resultMap="adminInfoMap2" parameterType="int">
-    select f.id, f.name
-    from powers p
-             join admin_info a on a.id = p.aid
-             join functions f on f.id = p.fid
-    where a.id = #{id};
+        select a.*, f.id fid, f.name fname
+        from powers p,
+             admin_info a,
+             functions f
+        where a.id = p.aid
+          and f.id = p.fid
+          and a.id = #{id};
     </select>
 
 </mapper>
