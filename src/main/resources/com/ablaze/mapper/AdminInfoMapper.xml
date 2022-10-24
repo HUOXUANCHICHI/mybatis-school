@@ -21,11 +21,12 @@
         </collection>
     </resultMap>
 
-    <select id="findAdminInfoById" resultMap="adminInfoMap" parameterType="int">
+    <!--查 多对多 嵌套查询-->
+    <!--<select id="findAdminInfoById" resultMap="adminInfoMap" parameterType="int">
         select *
         from admin_info as a
         where id = #{id};
-    </select>
+    </select>-->
 
     <select id="findAdminInfoById2" resultMap="adminInfoMap2" parameterType="int">
         select a.*, f.id fid, f.name fname
@@ -36,5 +37,4 @@
           and f.id = p.fid
           and a.id = #{id};
     </select>
-
 </mapper>

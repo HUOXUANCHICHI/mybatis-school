@@ -6,11 +6,11 @@
 <mapper namespace="com.ablaze.mapper.FunctionsMapper">
 
 
-
-    <select id="findFunctionsByAid" resultType="Functions" parameterType="int">
+    <!--多对多 嵌套查询-->
+    <!--<select id="findFunctionsByAid" resultType="Functions" parameterType="int">
         select *
         from functions as f
         where id in (select fid from powers where aid = #{id})
-    </select>
+    </select>-->
 
 </mapper>

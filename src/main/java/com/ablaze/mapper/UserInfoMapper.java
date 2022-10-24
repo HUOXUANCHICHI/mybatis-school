@@ -1,9 +1,11 @@
 package com.ablaze.mapper;
 
 import com.ablaze.pojo.UserInfo;
+import com.ablaze.util.UserInfoDynaSqlProvider;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author CHICHI
@@ -36,6 +38,14 @@ public interface UserInfoMapper {
 //    @ResultMap("userInfoResultMap")
     List<UserInfo> findUserInfoByName(UserInfo userInfo);
 
+    /**
+     * 动态SQL
+     * @param param
+     * @return
+     */
+    @SelectProvider(type = UserInfoDynaSqlProvider.class,method = "selectWithParam")
+    @ResultMap(value = "userInfoResultMap")
+    List<UserInfo> findUserInfoByCond(Map<String,Object> param);
     /**
      * 多条件模糊查询
      *
@@ -82,6 +92,14 @@ public interface UserInfoMapper {
     @Insert("insert into user_info values (null,#{uname},#{upass},#{realName},#{sex},#{address},#{email},#{regDate},#{status})")
     void addUserInfo(UserInfo userInfo);
 
+    /**
+     * 动态插入
+     * @param userInfo
+     * @return
+     */
+    @InsertProvider(type = UserInfoDynaSqlProvider.class,method = "insertUserInfo")
+    @Options(useGeneratedKeys = true, keyProperty = "uid")
+    int insertUserInfoByCond(UserInfo userInfo);
     /**
      * 修改
      *

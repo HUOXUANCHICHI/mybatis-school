@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.Test;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class MyBatis01Test {
@@ -85,6 +86,28 @@ public class MyBatis01Test {
         //4.执行方法
         List<UserInfo> userInfos = userInfoMapper.selectByCondition(userInfo);
 //        System.out.println(userInfos);
+        userInfos.forEach(System.out::println);
+        //5.释放资源
+        sqlSession.close();
+    }
+    @Test
+    public void testSelectByCond() {
+
+        //接收参数
+        String userName = "chichi";
+        String password = "111";
+
+        //封装对象
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("userName",userName);
+        param.put("password",password);
+
+        //2. 获取SqlSession对象
+        SqlSession sqlSession = factory.openSession();
+        //3.获取Mapper接口的代理对象
+        UserInfoMapper userInfoMapper = sqlSession.getMapper(UserInfoMapper.class);
+        //4.执行方法
+        List<UserInfo> userInfos = userInfoMapper.findUserInfoByCond(param);
         userInfos.forEach(System.out::println);
         //5.释放资源
         sqlSession.close();
@@ -219,6 +242,44 @@ public class MyBatis01Test {
         userInfoMapper.addUserInfo(userInfo);
         System.out.println("插入成功!");
         System.out.println(userInfo.getUid());
+        //提交事务
+        sqlSession.commit();
+        //5.释放资源
+        sqlSession.close();
+
+    }
+
+    @Test
+    public void InsertUserInfoTest() {
+        int status = 1;
+        String uname = "Lily";
+        String upass = "123456";
+        String realName = "莉莉";
+        String sex = "0";
+        String address = "11";
+        String email = "11";
+        Date regDate = new Date();
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUname(uname);
+        userInfo.setUpass(upass);
+        userInfo.setRealName(realName);
+        userInfo.setSex(sex);
+        userInfo.setAddress(address);
+        userInfo.setEmail(email);
+        userInfo.setRegDate(regDate);
+        userInfo.setStatus(status);
+
+        //2. 获取SqlSession对象
+        SqlSession sqlSession = factory.openSession();
+        //3.获取Mapper接口的代理对象
+        UserInfoMapper userInfoMapper = sqlSession.getMapper(UserInfoMapper.class);
+        //4.执行方法
+        int row = userInfoMapper.insertUserInfoByCond(userInfo);
+        if (row>0) {
+            System.out.println("插入成功!");
+        } else {
+            System.out.println("插入失败!");
+        }
         //提交事务
         sqlSession.commit();
         //5.释放资源

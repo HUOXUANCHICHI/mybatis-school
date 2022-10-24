@@ -1,6 +1,10 @@
 package com.ablaze.mapper;
 
 import com.ablaze.pojo.AdminInfo;
+import org.apache.ibatis.annotations.Many;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
+import org.apache.ibatis.annotations.Select;
 
 /**
  * @Author: ablaze
@@ -12,6 +16,12 @@ public interface AdminInfoMapper {
      * @param id
      * @return
      */
+    @Select("select * from admin_info as a where id = #{id}")
+    @Results({
+            @Result(id = true, column = "id", property = "id"),
+            @Result(column = "name", property = "name"),
+            @Result(column = "id", property = "fs", many = @Many(select = "com.ablaze.mapper.FunctionsMapper.findFunctionsByAid"))
+    })
     AdminInfo findAdminInfoById(int id);
 
     /**

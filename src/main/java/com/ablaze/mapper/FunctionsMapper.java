@@ -1,6 +1,7 @@
 package com.ablaze.mapper;
 
 import com.ablaze.pojo.Functions;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -14,5 +15,6 @@ public interface FunctionsMapper {
      * @param id
      * @return
      */
+    @Select("select * from functions as f where id in (select fid from powers where aid = #{id})")
     List<Functions> findFunctionsByAid(int id);
 }
